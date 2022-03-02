@@ -1,6 +1,7 @@
 import './App.css';
 import axios from  'axios';
 import React, {useState, useEffect} from 'react';
+import Coin from  './Coin';
 
 let COINGECKO_API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
 
@@ -8,6 +9,7 @@ let COINGECKO_API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_curre
 function App() {
 
   const [coins, setCoins] = useState([])
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     axios.get(COINGECKO_API_URL)
@@ -17,9 +19,39 @@ function App() {
       .catch(error => console.log(error));
   }, []);
 
+  const handleChange = e => {
+    setSearch(e.target.value);
+  }
+
+  const filteredCoins = coins.filter(
+    coin => coin.name.toLowerCase().includes(search.toLowerCase())
+  )
+
   return (
-    <div className="App">
-      <h1>API</h1>
+    <div className="coin-app">
+      <div className="coin-search">
+        <h1 className="coin-text">Search a currency</h1>
+        <form>
+          <input type="text" placeholder="Search" className="coin-input" onChange={handleChange}/>
+
+        </form>
+      </div>
+
+    {filteredCoins.map(
+      coin => {
+        return (
+          <Coin 
+          key={coin.id} 
+          name={coin.name} 
+          img={coin.image} 
+          symbol={coin.symbol} 
+          volume={coin.market_cap} 
+          price={coin.current_price} 
+          />
+        )
+      })
+    }
+
 
     </div>
   );
