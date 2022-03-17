@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import RechartsDemo from './RechartsDemo';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RechartsDemo />
   </React.StrictMode>,
   document.getElementById('root')
 );
