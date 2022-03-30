@@ -4,3 +4,7 @@ const CoinGeckoClient = new CoinGecko();
 export const getCoinGeckoMarketData = async (params) => {
 	return await CoinGeckoClient.coins.markets(params);
 }
+
+export const fetchMarketChartRange = async (coinId, params) => {
+	return await CoinGeckoClient.coins.fetchMarketChartRange(coinId, params);
+}

@@ -8,6 +8,9 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format, parseISO, subDays } from "date-fns";
+import React, {useState, useEffect} from 'react';
+
+import {fetchMarketChartRange} from  './CoinGeckoApi';
 
 const data = [];
 for (let num = 30; num >= 0; num--) {
@@ -18,6 +21,36 @@ for (let num = 30; num >= 0; num--) {
 }
 
 export default function RechartsDemo() {
+
+  const [coinGeckoData, setcoinGeckoData] = useState([]);
+  const [coinId, setCoinId] = useState("bitcoin");
+
+  useEffect(async() => {    
+
+    const params = {};
+    params.vs_currency = "usd";
+    params.from = "1392577232";
+    params.to = "1422577232";
+
+
+    let response = await fetchMarketChartRange(coinId, params);
+    //setCoins(response.data);
+    console.log(response.data.prices);
+
+    let pricesArray = response.data.prices;
+
+    let coinGeckoData = [];
+
+    pricesArray.forEach(price => {
+        let date = price[0];
+        let value = price[1];
+
+        pricesArray.push({date:date, value:value})
+    });
+    
+  }, []);
+
+
   console.log(data);
   return (
     <ResponsiveContainer width="100%" height={400}>
