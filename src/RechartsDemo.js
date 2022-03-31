@@ -20,17 +20,37 @@ for (let num = 30; num >= 0; num--) {
   });
 }
 
+const getPastDate = (pastDays) => {
+  let date = new Date();
+
+  date.setDate(date.getDate() - pastDays);
+
+  return date;
+}
+
+const getUnixTimeStampFromDate = (date) => {
+  return Math.floor((date.getTime() / 1000));
+}
+
+const getDateFromTimeStamp = (timeStamp) => {
+  return new Date(timeStamp);
+}
+
+
 export default function RechartsDemo() {
 
-  const [coinGeckoData, setcoinGeckoData] = useState([]);
+  const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [coinId, setCoinId] = useState("bitcoin");
+  const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
+  const [displayNumberOfDays, setDisplayNumberOfDays] = useState(7);
 
-  useEffect(async() => {    
 
+  useEffect(async() => {
     const params = {};
     params.vs_currency = "usd";
-    params.from = "1392577232";
-    params.to = "1422577232";
+    
+    params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));
+    params.to = getUnixTimeStampFromDate(new Date());
 
 
     let response = await fetchMarketChartRange(coinId, params);
@@ -39,22 +59,33 @@ export default function RechartsDemo() {
 
     let pricesArray = response.data.prices;
 
-    let coinGeckoData = [];
+    let dataArray = [];
 
-    pricesArray.forEach(price => {
-        let date = price[0];
-        let value = price[1];
+    pricesArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
+      let date = getDateFromTimeStamp(element[0]);
+      let price = element[1];
 
-        pricesArray.push({date:date, value:value})
+      dataArray.push({
+        date: date.toISOString().substr(0, 10),
+        value: Math.floor(price),
+      });
+
+      //console.log(time, date, price);
     });
-    
-  }, []);
+
+    console.log("dataArray", dataArray)
+
+    setCoinGeckoData(dataArray);
+  }, [coinId, queryNumberOfDays, displayNumberOfDays]);
+
+  console.log("coinGeckoData", coinGeckoData)
 
 
-  console.log(data);
+  
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <AreaChart data={data}>
+      
+      <AreaChart data={coinGeckoData}>
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
