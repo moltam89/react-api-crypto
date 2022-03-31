@@ -12,9 +12,6 @@ import React, {useState, useEffect} from 'react';
 
 import {fetchMarketChartRange} from  './CoinGeckoApi';
 
-import { Select } from 'antd';
-const { Option } = Select;
-
 const data = [];
 for (let num = 30; num >= 0; num--) {
   data.push({
@@ -39,9 +36,6 @@ const getDateFromTimeStamp = (timeStamp) => {
   return new Date(timeStamp);
 }
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 
 export default function RechartsDemo() {
 
@@ -89,49 +83,36 @@ export default function RechartsDemo() {
 
   
   return (
-    <div>
-      <div>
-        <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
-          <Option value="jack">Jack</Option>
-          <Option value="lucy">Lucy</Option>
-          <Option value="disabled" disabled>
-            Disabled
-          </Option>
-          <Option value="Yiminghe">yiminghe</Option>
-        </Select>
-      </div>
+    <ResponsiveContainer width="100%" height={400}>
+      
+      <AreaChart data={coinGeckoData}>
+        <defs>
+          <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
+            <stop offset="75%" stopColor="#2451B7" stopOpacity={0.05} />
+          </linearGradient>
+        </defs>
 
+        <Area dataKey="value" stroke="#2451B7" fill="url(#color)" />
 
-      <ResponsiveContainer width="100%" height={400}>
-        <AreaChart data={coinGeckoData}>
-          <defs>
-            <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
-              <stop offset="75%" stopColor="#2451B7" stopOpacity={0.05} />
-            </linearGradient>
-          </defs>
+        <XAxis
+          dataKey="date"
+          axisLine={false}
+          tickLine={false}
+        />
 
-          <Area dataKey="value" stroke="#2451B7" fill="url(#color)" />
+        <YAxis
+          datakey="value"
+          axisLine={false}
+          tickLine={false}
+          tickCount={8}
+        />
 
-          <XAxis
-            dataKey="date"
-            axisLine={false}
-            tickLine={false}
-          />
+        <Tooltip content={<CustomTooltip />} />
 
-          <YAxis
-            datakey="value"
-            axisLine={false}
-            tickLine={false}
-            tickCount={8}
-          />
-
-          <Tooltip content={<CustomTooltip />} />
-
-          <CartesianGrid opacity={0.1} vertical={false} />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+        <CartesianGrid opacity={0.1} vertical={false} />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }
 
