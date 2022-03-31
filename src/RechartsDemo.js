@@ -9,16 +9,7 @@ import {
 } from "recharts";
 import { format, parseISO, subDays } from "date-fns";
 import React, {useState, useEffect} from 'react';
-
 import {fetchMarketChartRange} from  './CoinGeckoApi';
-
-const data = [];
-for (let num = 30; num >= 0; num--) {
-  data.push({
-    date: subDays(new Date(), num).toISOString().substr(0, 10),
-    value: 1 + Math.random(),
-  });
-}
 
 const getPastDate = (pastDays) => {
   let date = new Date();
@@ -36,14 +27,14 @@ const getDateFromTimeStamp = (timeStamp) => {
   return new Date(timeStamp);
 }
 
-
 export default function RechartsDemo() {
-
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [coinId, setCoinId] = useState("bitcoin");
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
   const [displayNumberOfDays, setDisplayNumberOfDays] = useState(7);
 
+  // prices, market_caps, total_volumes
+  const [displayStyle, setDisplayStyle] = useState("prices");
 
   useEffect(async() => {
     const params = {};
@@ -52,16 +43,12 @@ export default function RechartsDemo() {
     params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));
     params.to = getUnixTimeStampFromDate(new Date());
 
-
     let response = await fetchMarketChartRange(coinId, params);
-    //setCoins(response.data);
-    console.log(response.data.prices);
-
-    let pricesArray = response.data.prices;
+    let responseArray = response.data[displayStyle];
 
     let dataArray = [];
 
-    pricesArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
+    responseArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
       let date = getDateFromTimeStamp(element[0]);
       let price = element[1];
 
@@ -69,18 +56,10 @@ export default function RechartsDemo() {
         date: date.toISOString().substr(0, 10),
         value: Math.floor(price),
       });
-
-      //console.log(time, date, price);
     });
-
-    console.log("dataArray", dataArray)
 
     setCoinGeckoData(dataArray);
   }, [coinId, queryNumberOfDays, displayNumberOfDays]);
-
-  console.log("coinGeckoData", coinGeckoData)
-
-
   
   return (
     <ResponsiveContainer width="100%" height={400}>
