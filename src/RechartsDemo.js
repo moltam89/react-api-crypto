@@ -99,13 +99,6 @@ export default function RechartsDemo() {
           dataKey="date"
           axisLine={false}
           tickLine={false}
-          tickFormatter={(str) => {
-            const date = parseISO(str);
-            if (date.getDate() % 7 === 0) {
-              return format(date, "MMM, d");
-            }
-            return "";
-          }}
         />
 
         <YAxis
@@ -113,7 +106,6 @@ export default function RechartsDemo() {
           axisLine={false}
           tickLine={false}
           tickCount={8}
-          tickFormatter={(number) => `$${number.toFixed(2)}`}
         />
 
         <Tooltip content={<CustomTooltip />} />
@@ -129,7 +121,7 @@ function CustomTooltip({ active, payload, label }) {
     return (
       <div className="tooltip">
         <h4>{format(parseISO(label), "eeee, d MMM, yyyy")}</h4>
-        <p>${payload[0].value.toFixed(2)} CAD</p>
+        <p>${payload[0].value.toFixed(2)} Bitcoin</p>
       </div>
     );
   }
