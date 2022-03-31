@@ -41,11 +41,9 @@ export default function RechartsDemo() {
 
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [coinId, setCoinId] = useState("bitcoin");
-  const [queryNumberOfDays, setQueryNumberOfDays] = useState(80);
+  const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
   const [displayNumberOfDays, setDisplayNumberOfDays] = useState(7);
 
-  // prices, market_caps, total_volumes
-  const [displayStyle, setSisplayStyle] = useState("prices");
 
   useEffect(async() => {
     const params = {};
@@ -57,19 +55,13 @@ export default function RechartsDemo() {
 
     let response = await fetchMarketChartRange(coinId, params);
     //setCoins(response.data);
-    console.log("response", response.data);
+    console.log(response.data.prices);
 
-    let responseArray = response.data[displayStyle];
-    console.log("responseArray", responseArray.length)
-
-    let sliceNumber = displayNumberOfDays;
-    if (responseArray.length > queryNumberOfDays) {
-      sliceNumber = sliceNumber * 24;
-    }
+    let pricesArray = response.data.prices;
 
     let dataArray = [];
 
-    responseArray.slice(responseArray.length - sliceNumber).forEach(element => {
+    pricesArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
       let date = getDateFromTimeStamp(element[0]);
       let price = element[1];
 
@@ -84,7 +76,7 @@ export default function RechartsDemo() {
     console.log("dataArray", dataArray)
 
     setCoinGeckoData(dataArray);
-  }, [coinId, queryNumberOfDays, displayNumberOfDays, displayStyle]);
+  }, [coinId, queryNumberOfDays, displayNumberOfDays]);
 
   console.log("coinGeckoData", coinGeckoData)
 
@@ -113,7 +105,7 @@ export default function RechartsDemo() {
           datakey="value"
           axisLine={false}
           tickLine={false}
-          
+          tickCount={8}
         />
 
         <Tooltip content={<CustomTooltip />} />
@@ -129,7 +121,7 @@ function CustomTooltip({ active, payload, label }) {
     return (
       <div className="tooltip">
         <h4>{format(parseISO(label), "eeee, d MMM, yyyy")}</h4>
-        <p>${payload[0].value} Bitcoin</p>
+        <p>${payload[0].value.toFixed(2)} Bitcoin</p>
       </div>
     );
   }
