@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 import Table from  './Table';
+import RechartsDemo from  './RechartsDemo';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Table/>}/>
+          <Route path="/test" element={<RechartsDemo/>}/>
         </Routes>
       </Router>
     </div>

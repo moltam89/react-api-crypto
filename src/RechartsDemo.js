@@ -29,7 +29,7 @@ const getDateFromTimeStamp = (timeStamp) => {
 
 export default function RechartsDemo() {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
-  const [coinId, setCoinId] = useState("bitcoin");
+  const [coinId, setCoinId] = useState("ethereum");
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
   const [displayNumberOfDays, setDisplayNumberOfDays] = useState(7);
 
