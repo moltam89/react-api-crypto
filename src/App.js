@@ -7,6 +7,7 @@ import {
 
 import Table from  './Table';
 import RechartsDemo from  './RechartsDemo';
+import HighChartsDemo from  './HighChartsDemo';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Table/>}/>
           <Route path="/test" element={<RechartsDemo/>}/>
+          <Route path="/HighCharts" element={<HighChartsDemo/>}/>
         </Routes>
       </Router>
     </div>
