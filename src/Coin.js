@@ -1,14 +1,17 @@
 import React from 'react';
 import './Coin.css';
+import { Link } from "react-router-dom";
 
-const Coin = ({name, img, symbol, price, volume, priceChange, marketCap}) => {
+const Coin = ({id, name, img, symbol, price, volume, priceChange, marketCap}) => {
 
 	return (
    <div className="coin-container">
    		<div className="coin-row">
   			<div className="coin">
   			 	<img src={img}/>
-  			 	<h1> {name}</h1>
+                 <Link to={`/coins/${id}`}>
+  			 	    <h1> {name}</h1>
+                 </Link>
   			 	<p className="coin-symbol">{symbol}</p>
     		</div>
 
