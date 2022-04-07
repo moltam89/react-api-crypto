@@ -7,7 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 
 export default function HighChartsDemo() {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
-  const [coinId, setCoinId] = useState("ethereum");
+  const [coinIds, setCoinIds] = useState(["ethereum", "bitcoin"]);
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
   const [displayNumberOfDays, setDisplayNumberOfDays] = useState(7);
   // prices, market_caps, total_volumes
@@ -18,7 +18,7 @@ export default function HighChartsDemo() {
       type: 'spline'
     },
     title: {
-      text: coinId
+      text: coinIds
     },
     series: [
       {
@@ -34,12 +34,14 @@ export default function HighChartsDemo() {
     params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));
     params.to = getUnixTimeStampFromDate(new Date());
 
-    let response = await fetchMarketChartRange(coinId, params);
-    let responseArray = response.data[displayStyle];
+    
 
     let series = [];
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < coinIds.length; i++) {
+      let response = await fetchMarketChartRange(coinIds[i], params);
+      let responseArray = response.data[displayStyle];
+
       let dataArray = [];
 
       responseArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
@@ -60,7 +62,7 @@ export default function HighChartsDemo() {
     });
 
     // setCoinGeckoData(dataArray);
-  }, [coinId, queryNumberOfDays, displayNumberOfDays]);
+  }, [coinIds, queryNumberOfDays, displayNumberOfDays]);
 
   return (
     <div>
