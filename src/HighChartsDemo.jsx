@@ -37,29 +37,35 @@ export default function HighChartsDemo() {
     let response = await fetchMarketChartRange(coinId, params);
     let responseArray = response.data[displayStyle];
 
-    let dataArray = [];
+    let series = [];
 
-    responseArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
-      let date = getDateFromTimeStamp(element[0]);
-      let price = element[1];
+    for (let i = 0; i < 2; i++) {
+      let dataArray = [];
 
-      dataArray.push(
-        [date.toISOString().substr(0, 10), Math.floor(price)]
-       );
+      responseArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
+        let date = getDateFromTimeStamp(element[0]);
+        let price = element[1];
+
+        dataArray.push(
+          [date.toISOString().substr(0, 10), Math.floor(price)]
+         );
+      });
+
+      series.push({data: dataArray});
+    }
+
+    setOptions({
+      ...options, 
+      series: series
     });
 
-    setOptions({ 
-      series: [
-          { data: dataArray}
-        ]
-    })
-
-    setCoinGeckoData(dataArray);
+    // setCoinGeckoData(dataArray);
   }, [coinId, queryNumberOfDays, displayNumberOfDays]);
 
   return (
     <div>
       HighChartsDemo
+      {console.log("options", options)}
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );
