@@ -1,21 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import { render } from 'react-dom';
 import { format, parseISO, subDays } from "date-fns";
-import {fetchMarketChartRange} from  './CoinGeckoApi';
+import {fetchMarketChartRange, coinsAll} from  './CoinGeckoApi';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-export default function HighChartsDemo() {
+export default function HighChartsDemo({coinIds, queryNumberOfDays = 100, displayNumberOfDays = 0}) {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
-  const [coinIds, setCoinIds] = useState(["ethereum", "bitcoin"]);
-  const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
-  const [displayNumberOfDays, setDisplayNumberOfDays] = useState(7);
+  //const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
+  //const [displayNumberOfDays, setDisplayNumberOfDays] = useState(100);
   // prices, market_caps, total_volumes
   const [displayStyle, setDisplayStyle] = useState("prices");
 
   const [options, setOptions] = useState({
     chart: {
       type: 'spline'
+    },
+    plotOptions: {
+      series: {
+          compare: 'percent',
+          showInNavigator: true
+      }
     },
     title: {
       text: coinIds
@@ -28,13 +33,14 @@ export default function HighChartsDemo() {
   });
 
   useEffect(async() => {
+    //let coins = await coinsAll();
+    //console.log("coins", coins);
+
     const params = {};
     params.vs_currency = "usd";
     
     params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));
     params.to = getUnixTimeStampFromDate(new Date());
-
-    
 
     let series = [];
 
@@ -42,18 +48,32 @@ export default function HighChartsDemo() {
       let response = await fetchMarketChartRange(coinIds[i], params);
       let responseArray = response.data[displayStyle];
 
+      console.log("responseArray", responseArray);
+
       let dataArray = [];
 
-      responseArray.slice(queryNumberOfDays - displayNumberOfDays).forEach(element => {
+      if (displayNumberOfDays > 0) {
+        responseArray = responseArray.slice(queryNumberOfDays - displayNumberOfDays);
+      }
+
+      responseArray.forEach(element => {
         let date = getDateFromTimeStamp(element[0]);
         let price = element[1];
 
+        if (price > 1000) {
+          price = Math.floor(price);
+        }
+        else {
+          //price = Number(price.toFixed(2));
+        }
+
         dataArray.push(
-          [date.toISOString().substr(0, 10), Math.floor(price)]
+          //[date.toISOString().substr(0, 10), price]
+          [date.toISOString(), price]
          );
       });
 
-      series.push({data: dataArray});
+      series.push({name: coinIds[i], data: dataArray});
     }
 
     setOptions({
@@ -68,7 +88,7 @@ export default function HighChartsDemo() {
     <div>
       HighChartsDemo
       {console.log("options", options)}
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <HighchartsReact highcharts={Highcharts}  options={options} />
     </div>
   );
 }
