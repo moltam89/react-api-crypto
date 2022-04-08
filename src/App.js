@@ -50,7 +50,7 @@ function App() {
           
           <Route exact path="/HighCharts" element={
             <>
-              <HighChartsDemo coinIds={["bitcoin", "ethereum"]}/>
+              <HighChartsDemo coinIds={["bitcoin", "matic-network", "monero", "tezos", "tezos", "ethereum", "binancecoin", "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
               
   
               <HighChartsDemo coinIds={["dai", "tether", "usd-coin"]}/>

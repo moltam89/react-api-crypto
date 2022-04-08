@@ -5,7 +5,7 @@ import {fetchMarketChartRange, coinsAll} from  './CoinGeckoApi';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-export default function HighChartsDemo({coinIds, queryNumberOfDays = 100, displayNumberOfDays = 0}) {
+export default function HighChartsDemo({coinIds, queryNumberOfDays = 1, displayNumberOfDays = 0}) {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   //const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
   //const [displayNumberOfDays, setDisplayNumberOfDays] = useState(100);
@@ -56,9 +56,15 @@ export default function HighChartsDemo({coinIds, queryNumberOfDays = 100, displa
         responseArray = responseArray.slice(queryNumberOfDays - displayNumberOfDays);
       }
 
+      let base = undefined;
+
       responseArray.forEach(element => {
         let date = getDateFromTimeStamp(element[0]);
         let price = element[1];
+
+        if (!base) {
+          base = price;
+        }
 
         if (price > 1000) {
           price = Math.floor(price);
@@ -69,7 +75,8 @@ export default function HighChartsDemo({coinIds, queryNumberOfDays = 100, displa
 
         dataArray.push(
           //[date.toISOString().substr(0, 10), price]
-          [date.toISOString(), price]
+          //[date.toISOString(), price]
+          [date.toISOString(), price / base]
          );
       });
 
