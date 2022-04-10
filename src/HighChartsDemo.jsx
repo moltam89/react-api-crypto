@@ -4,10 +4,32 @@ import { format, parseISO, subDays } from "date-fns";
 import {fetchMarketChartRange, coinsAll} from  './CoinGeckoApi';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { InputNumber } from 'antd';
 
-export default function HighChartsDemo({coinIds, queryNumberOfDays = 1, displayNumberOfDays = 0}) {
+
+
+export default function HighChartsDemo({coinIds, displayNumberOfDays = 0}) {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
-  //const [queryNumberOfDays, setQueryNumberOfDays] = useState(100);
+
+  const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);
+  const queryNumberOfDaysOnChange = (value) => {
+    console.log("value", value);
+
+    if (value > 0) {
+      setQueryNumberOfDays(value);  
+    }
+  }
+
+  const [to, setTo] = useState(getUnixTimeStampFromDate(new Date()));
+  const toOnchange = (value) => {
+    console.log("value", value);
+
+    if (value > 0) {
+      setTo(value);  
+    }
+  }
+
+
   //const [displayNumberOfDays, setDisplayNumberOfDays] = useState(100);
   // prices, market_caps, total_volumes
   const [displayStyle, setDisplayStyle] = useState("prices");
@@ -59,7 +81,7 @@ export default function HighChartsDemo({coinIds, queryNumberOfDays = 1, displayN
     console.log("params.from", params.from)
     //params.from = params.from - 
 
-    params.to = getUnixTimeStampFromDate(new Date());
+    params.to = to;
 
     let series = [];
 
@@ -108,16 +130,21 @@ export default function HighChartsDemo({coinIds, queryNumberOfDays = 1, displayN
     });
 
     // setCoinGeckoData(dataArray);
-  }, [coinIds, queryNumberOfDays, displayNumberOfDays]);
+  }, [coinIds, queryNumberOfDays, displayNumberOfDays, to]);
 
   return (
     <div>
       HighChartsDemo
       {console.log("options", options)}
       <HighchartsReact highcharts={Highcharts}  options={options} />
+
+      <InputNumber placeholder="from"defaultValue={1} onChange={queryNumberOfDaysOnChange} />
+      <InputNumber placeholder="to"  onChange={toOnchange} />
     </div>
   );
 }
+
+
 
 
 const getPastDate = (pastDays) => {

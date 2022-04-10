@@ -8,6 +8,7 @@ import {
 import Table from  './Table';
 import RechartsDemo from  './RechartsDemo';
 import HighChartsDemo from  './HighChartsDemo';
+import HighChartsWithOwnData from  './HighChartsWithOwnData';
 
 /*<HighChartsDemo coinIds={["bitcoin"]}/>
               <HighChartsDemo coinIds={["ethereum"]}/>
@@ -35,6 +36,11 @@ import HighChartsDemo from  './HighChartsDemo';
               <HighChartsDemo coinIds={["tezos"]}/>
               <HighChartsDemo coinIds={["thorchain"]}/>
 
+              <HighChartsDemo coinIds={["musd", "dai", "tether", "usd-coin"]}/>
+              <HighChartsDemo coinIds={["musd","dai", "tether", "usd-coin", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", , "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
+              <HighChartsDemo coinIds={["dai", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", "solana", "ripple", "terra-luna", "dogecoin", "thorchain"]}/>
+
+
      */
               
 
@@ -50,10 +56,10 @@ function App() {
           
           <Route exact path="/HighCharts" element={
             <>
-              <HighChartsDemo coinIds={["musd","dai", "tether", "usd-coin", "bitcoin", "matic-network", "monero", "tezos", "tezos", "ethereum", "binancecoin", "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
+              <HighChartsWithOwnData interval={2000}/>
               
   
-              <HighChartsDemo coinIds={["musd", "dai", "tether", "usd-coin"]}/>
+              
             </>}
             />
         </Routes>
