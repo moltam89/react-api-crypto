@@ -116,8 +116,8 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0}) {
 
         dataArray.push(
           //[date.toISOString().substr(0, 10), price]
-          //[date.toISOString(), price]
-          [date.toISOString(), price / base]
+          [date.toISOString(), price]
+          //[date.toISOString(), price / base]
          );
       });
 

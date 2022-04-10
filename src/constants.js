@@ -4,10 +4,12 @@ const GAS_API_URL = "https://gpoly.blockscan.com/gasapi.ashx?apikey=key&method=p
 const DAI_POLYGON = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";
 const USDC_POLYGON = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
 const USDT_POLYGON = "0xc2132d05d31c914a87c6611c10748aeb04b58e8f";
+const WBTC_POLYGON = "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6";
 
 const DAI_MAINNET = "0x6b175474e89094c44da98b954eedeac495271d0f";
 const USDC_MAINNET = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
 const USDT_MAINNET = "0xdac17f958d2ee523a2206206994597c13d831ec7";
+const WBTC_MAINNET = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599";
 
 const MY_ADDRESS = "0xC891db965E43C4fbfccc9e7Ef3546AB692C4053F";
 const MY_TEST_ADDRESS = "0x8c9d11ce64289701efeb6a68c16e849e9a2e781d";
@@ -18,13 +20,15 @@ const CHAIN_ID_MAINNET = "1";
 const TOKEN_MAP_POLYGON = new Map([
   ['DAI', {address:DAI_POLYGON, decimals:18}],
   ['USDC', {address:USDC_POLYGON, decimals:6}],
-  ['USDT', {address:USDT_POLYGON, decimals:6}]
+  ['USDT', {address:USDT_POLYGON, decimals:6}],
+  ['WBTC', {address:WBTC_POLYGON, decimals:8}]
 ]);
 
 const TOKEN_MAP_MAINNET = new Map([
   ['DAI', {address:DAI_MAINNET, decimals:18}],
   ['USDC', {address:USDC_MAINNET, decimals:6}],
-  ['USDT', {address:USDT_MAINNET, decimals:6}]
+  ['USDT', {address:USDT_MAINNET, decimals:6}],
+  ['WBTC', {address:WBTC_MAINNET, decimals:8}]
 ]);
 
 const getTokenAddress = (symbol, chainId) => {

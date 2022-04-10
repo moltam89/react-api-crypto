@@ -41,21 +41,41 @@ export default function HighChartsWithOwnData({interval}) {
     series: [
       {
         data: []
+      },
+      {
+        data: []
       }
     ]
   });
 
   useEffect(async() => {
-    let a = await nullaX_Mainnet.getQuote("USDC", "USDT", 10000, undefined, undefined, MY_TEST_ADDRESS, true);
-    console.log(a);
-
+    let amount = 10000;
+    let responseMainnet = await nullaX_Mainnet.getQuote("USDC", "WBTC", amount, undefined, undefined, MY_TEST_ADDRESS, true);
+    let responsePolygon = await nullaX_Polygon.getQuote("USDC", "WBTC", amount, undefined, undefined, MY_TEST_ADDRESS, true);
+    
     let data = options.series[0].data;
-    console.log(data);
+    let price = Number(responseMainnet.parsedResponse.price.toFixed(2))
 
-    data.push(getRandomInt(10));
+    console.log(price);
+
+    data.push(price);
 
     let series = options.series;
     series[0].data = data;
+    series[0].name = "Mainnet WBTC";
+
+    let data1 = options.series[1].data;
+    let price1 = Number(responsePolygon.parsedResponse.price.toFixed(2))
+
+    console.log(price1);
+
+
+    data1.push(price1);
+
+    series[1].data = data1;
+    series[1].name = "Polygon WBTC";
+
+    console.log("series[0]", series[0]);
 
 
     setOptions({

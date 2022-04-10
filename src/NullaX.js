@@ -58,12 +58,15 @@ class NullaX {
 
 		console.log("NullaTime", new Date() - time)
 
+		let decimalDiff = getTokenDecimals(sellTokenSymbol, this.chainId) - getTokenDecimals(buyTokenSymbol, this.chainId);
+
 		let data = response.data;
 		let parsedResponse = {
 			sellAmount: data.sellAmount,
 			buyAmount: data.buyAmount,
 			sellAmountFormatted: (Number(utils.formatUnits(data.sellAmount, getTokenDecimals(sellTokenSymbol, this.chainId))).toFixed(2)).toLocaleString("de-DE"),
-			buyAmountFormatted_: Number(utils.formatUnits(data.buyAmount, getTokenDecimals(buyTokenSymbol, this.chainId))).toFixed(2).toLocaleString("de-DE")
+			buyAmountFormatted_: Number(utils.formatUnits(data.buyAmount, getTokenDecimals(buyTokenSymbol, this.chainId))).toFixed(2).toLocaleString("de-DE"),
+			price: data.sellAmount / data.buyAmount / Math.pow(10, decimalDiff)
 		}
 
 		return {response:response, parsedResponse:parsedResponse};
