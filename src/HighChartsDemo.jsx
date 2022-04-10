@@ -33,13 +33,32 @@ export default function HighChartsDemo({coinIds, queryNumberOfDays = 1, displayN
   });
 
   useEffect(async() => {
-    //let coins = await coinsAll();
-    //console.log("coins", coins);
+    /*let coins = await coinsAll();
+    console.log("coins", coins);
+
+    let coinIds = []
+
+    coins.data.forEach(coin => {
+      coinIds.push(coin.id);
+    })*/
+
+    console.log(coinIds);
 
     const params = {};
     params.vs_currency = "usd";
     
-    params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));
+    if (queryNumberOfDays > 100000) {
+      params.from = queryNumberOfDays;
+    }
+    else {
+      params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));  
+    }
+
+    
+
+    console.log("params.from", params.from)
+    //params.from = params.from - 
+
     params.to = getUnixTimeStampFromDate(new Date());
 
     let series = [];
