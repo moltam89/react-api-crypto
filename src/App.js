@@ -40,6 +40,8 @@ import HighChartsWithOwnData from  './HighChartsWithOwnData';
               <HighChartsDemo coinIds={["musd","dai", "tether", "usd-coin", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", , "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
               <HighChartsDemo coinIds={["dai", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", "solana", "ripple", "terra-luna", "dogecoin", "thorchain"]}/>
 
+              <HighChartsWithOwnData interval={2000}/>
+
 
      */
               
@@ -56,7 +58,8 @@ function App() {
           
           <Route exact path="/HighCharts" element={
             <>
-              <HighChartsWithOwnData interval={2000}/>
+              
+              <HighChartsDemo coinIds={["bitcoin", "binance-bitcoin", "wrapped-bitcoin", "renbtc", "sbtc"]}/>
               
   
               
