@@ -59,8 +59,8 @@ function App() {
           
           <Route exact path="/HighCharts" element={
             <>
-              
-              <HighChartsWithOwnData interval={10000}/>
+              <HighChartsDemo coinIds={["bitcoin", "ethereum"]}/>
+              <HighChartsWithOwnData interval={60000}/>
               
   
               

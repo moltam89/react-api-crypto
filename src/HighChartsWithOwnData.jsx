@@ -14,9 +14,12 @@ const {NullaX} = require('./NullaX');
 const nullaX_Mainnet = new NullaX(CHAIN_ID_MAINNET);
 const nullaX_Polygon = new NullaX(CHAIN_ID_POLYGON);
 
+let amount = 10000;
+let bases = [];
 
 export default function HighChartsWithOwnData({interval}) {
   const [time, setTime] = useState(Date.now());
+  const [tokens, setTokens] = useState(["WETH", "WBTC"]);
 
   useEffect(() => {
     const intervalId = setInterval(() => setTime(Date.now()), interval);
@@ -44,46 +47,64 @@ export default function HighChartsWithOwnData({interval}) {
       },
       {
         data: []
+      },
+      {
+        data: []
+      },
+      {
+        data: []
       }
     ]
   });
 
+  
+
   useEffect(async() => {
-    let amount = 10000;
-    let responseMainnet = await nullaX_Mainnet.getQuote("USDC", "WBTC", amount, undefined, undefined, MY_TEST_ADDRESS, true);
-    let responsePolygon = await nullaX_Polygon.getQuote("USDC", "WBTC", amount, undefined, undefined, MY_TEST_ADDRESS, true);
-    
-    let data = options.series[0].data;
-    let price = Number(responseMainnet.parsedResponse.price.toFixed(2))
-
-    console.log(price);
-
-    data.push(price);
-
     let series = options.series;
-    series[0].data = data;
-    series[0].name = "Mainnet WBTC";
+    let date = new Date();
+    
+    tokens.forEach(async token => {
+      let responseMainnet = await nullaX_Mainnet.getQuote("USDC", token, amount, undefined, undefined, MY_TEST_ADDRESS, true);
+      let responsePolygon = await nullaX_Polygon.getQuote("USDC", token, amount, undefined, undefined, MY_TEST_ADDRESS, true);
 
-    let data1 = options.series[1].data;
-    let price1 = Number(responsePolygon.parsedResponse.price.toFixed(2))
+      let responses = [responseMainnet, responsePolygon];
 
-    console.log(price1);
+      responses.forEach(response => {
+        let seriesIndex = tokens.indexOf(token) * 2 + responses.indexOf(response);
+        
+        let data = options.series[seriesIndex].data;
+        let price = Number(response.parsedResponse.price.toFixed(2))
+        console.log("price", price)
+        console.log("bases", bases)
 
+        if (bases[seriesIndex] === undefined) {
+          bases[seriesIndex] = price;
+          data.push([date.toISOString(), 1]);
+        }
+        else {
+          data.push([date.toISOString(), price / bases[seriesIndex]]);  
+        }
+        
+        
 
-    data1.push(price1);
+        series[seriesIndex].data = data;
 
-    series[1].data = data1;
-    series[1].name = "Polygon WBTC";
+        let chain = "Mainnet";
+        if (responses.indexOf(response) == 1) {
+          chain = "Polygon";
+        }
+        series[seriesIndex].name = chain + token;
 
-    console.log("series[0]", series[0]);
+        console.log(bases[seriesIndex], price, series[seriesIndex].name)
+      })      
+    })
 
+    console.log(options)
 
     setOptions({
       ...options, 
       series: series
     });
-
-
 
   }, [time]);
 
