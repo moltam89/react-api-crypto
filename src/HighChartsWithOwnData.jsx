@@ -17,9 +17,8 @@ const nullaX_Polygon = new NullaX(CHAIN_ID_POLYGON);
 let amount = 10000;
 let bases = [];
 
-export default function HighChartsWithOwnData({interval}) {
+export default function HighChartsWithOwnData({interval, tokens, polygon = true, mainnet = true, percentage = false, toFixed = 2}) {
   const [time, setTime] = useState(Date.now());
-  const [tokens, setTokens] = useState(["WETH", "WBTC"]);
 
   useEffect(() => {
     const intervalId = setInterval(() => setTime(Date.now()), interval);
@@ -53,8 +52,14 @@ export default function HighChartsWithOwnData({interval}) {
       },
       {
         data: []
+      },
+      {
+        data: []
+      },
+      {
+        data: []
       }
-    ]
+     ]
   });
 
   
@@ -64,28 +69,48 @@ export default function HighChartsWithOwnData({interval}) {
     let date = new Date();
     
     tokens.forEach(async token => {
-      let responseMainnet = await nullaX_Mainnet.getQuote("USDC", token, amount, undefined, undefined, MY_TEST_ADDRESS, true);
-      let responsePolygon = await nullaX_Polygon.getQuote("USDC", token, amount, undefined, undefined, MY_TEST_ADDRESS, true);
+      let responseMainnet;
+      let responsePolygon;
 
-      let responses = [responseMainnet, responsePolygon];
+      try {
+        if (mainnet) {
+          responseMainnet = await nullaX_Mainnet.getQuote("USDC", token, amount, undefined, undefined, MY_TEST_ADDRESS, true);
+        }
+        
+        if (polygon) {
+          responsePolygon = await nullaX_Polygon.getQuote("USDC", token, amount, undefined, undefined, MY_TEST_ADDRESS, true);    
+        }
+      }
+      catch (error) {
+        //console.log("Coudn't fetch price", error)
+        return;
+      }
+      
+      let responses = [];
+      if (responseMainnet) {
+        responses.push(responseMainnet);
+      }
+      if (responsePolygon) {
+        responses.push(responsePolygon);
+      }
 
       responses.forEach(response => {
         let seriesIndex = tokens.indexOf(token) * 2 + responses.indexOf(response);
-        
-        let data = options.series[seriesIndex].data;
-        let price = Number(response.parsedResponse.price.toFixed(2))
-        console.log("price", price)
-        console.log("bases", bases)
 
-        if (bases[seriesIndex] === undefined) {
-          bases[seriesIndex] = price;
-          data.push([date.toISOString(), 1]);
+        let data = options.series[seriesIndex]?.data;
+
+        let price = Number(response.parsedResponse.price.toFixed(toFixed))
+        if (percentage) {
+          if (bases[seriesIndex] === undefined) {
+            bases[seriesIndex] = price;
+            price = 1;
+          }
+          else {
+            price = price / bases[seriesIndex];
+          }
         }
-        else {
-          data.push([date.toISOString(), price / bases[seriesIndex]]);  
-        }
-        
-        
+
+        data.push([date.toISOString(), price]);    
 
         series[seriesIndex].data = data;
 
@@ -95,11 +120,9 @@ export default function HighChartsWithOwnData({interval}) {
         }
         series[seriesIndex].name = chain + token;
 
-        console.log(bases[seriesIndex], price, series[seriesIndex].name)
+        
       })      
     })
-
-    console.log(options)
 
     setOptions({
       ...options, 

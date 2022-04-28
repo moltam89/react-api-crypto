@@ -8,7 +8,7 @@ import { InputNumber } from 'antd';
 
 
 
-export default function HighChartsDemo({coinIds, displayNumberOfDays = 0}) {
+export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percentage = false}) {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
 
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);
@@ -114,10 +114,14 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0}) {
           //price = Number(price.toFixed(2));
         }
 
+        if (percentage) {
+          price = price / base
+        }
+
         dataArray.push(
           //[date.toISOString().substr(0, 10), price]
           //[date.toISOString(), price]
-          [date.toISOString(), price / base]
+          [date.toISOString(), price]
          );
       });
 

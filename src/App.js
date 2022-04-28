@@ -41,8 +41,15 @@ import HighChartsWithOwnData from  './HighChartsWithOwnData';
               <HighChartsDemo coinIds={["dai", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", "solana", "ripple", "terra-luna", "dogecoin", "thorchain"]}/>
 
               <HighChartsDemo coinIds={["bitcoin", "binance-bitcoin", "wrapped-bitcoin", "renbtc", "sbtc"]}/>
-              x
+              
 
+              <HighChartsDemo coinIds={["bitcoin", "ethereum"]}/>
+              <HighChartsDemo coinIds={["musd","dai", "tether", "usd-coin", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
+
+              <HighChartsDemo coinIds={["bitcoin", "binance-bitcoin", "wrapped-bitcoin", "renbtc", "sbtc"]}/>
+              <HighChartsWithOwnData interval={60000} tokens={["WBTC", "renBTC", "sBTC"]} polygon={false}/>
+              <HighChartsWithOwnData interval={10000} tokens={["DAI", "USDC", "USDT"]} polygon={true} toFixed={6}/>
+              <HighChartsDemo coinIds={["musd", "dai", "tether", "usd-coin"]}/>
 
      */
               
@@ -59,11 +66,8 @@ function App() {
           
           <Route exact path="/HighCharts" element={
             <>
-              <HighChartsDemo coinIds={["bitcoin", "ethereum"]}/>
-              <HighChartsWithOwnData interval={60000}/>
               
-  
-              
+              <HighChartsDemo percentage={true} coinIds={["musd","dai", "tether", "usd-coin", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
             </>}
             />
         </Routes>
