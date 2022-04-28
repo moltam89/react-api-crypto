@@ -68,6 +68,9 @@ function App() {
             <>
               
               <HighChartsDemo percentage={true} coinIds={["musd","dai", "tether", "usd-coin", "bitcoin", "ethereum", "binancecoin", "matic-network", "monero", "tezos", "tezos", "solana", "ripple", "terra-luna", "dogecoin", "apecoin", "thorchain"]}/>
+              <HighChartsDemo percentage={true} coinIds={["bitcoin"]}/>
+
+              <HighChartsWithOwnData interval={5000} tokens={["WBTC", "renBTC", "sBTC"]} polygon={false}/>
             </>}
             />
         </Routes>

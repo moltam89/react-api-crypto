@@ -1,3 +1,9 @@
+Routes: A fo oldalrol, ha rakatitntunk pl. a bitcoin-ra, akkor bejojjon a bitcoon chart
+X tengely mutassa a datumot
+Vmi hasonlo gombok mint a coingecko-n
+
+
+
 Házi:
 elmult 7 nap adatainak mutatasa a grafikonon
 
