@@ -19,6 +19,17 @@ function Table() {
 
     let response = await getCoinGeckoMarketData(params);
     setCoins(response.data);
+
+    /*
+    console.log(response.data);
+
+    let coinIds = [];
+    response.data.forEach(coin => {
+      console.log(coin.id)
+      coinIds.push(coin.id);
+    })
+    console.log(coinIds)
+    */
     
   }, []);
 

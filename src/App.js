@@ -1,6 +1,6 @@
 import './App.css';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
@@ -51,18 +51,29 @@ import HighChartsWithOwnData from  './HighChartsWithOwnData';
               <HighChartsWithOwnData interval={10000} tokens={["DAI", "USDC", "USDT"]} polygon={true} toFixed={6}/>
               <HighChartsDemo coinIds={["musd", "dai", "tether", "usd-coin"]}/>
 
+  <Route path="/coins/bitcoin" element={<HighChartsDemo coinIds={["bitcoin"]}/>}/>
      */
-              
+       
+const COIN_IDS = ["bitcoin","ethereum","tether","binancecoin","usd-coin","ripple","solana","cardano","binance-usd","dogecoin","polkadot","avalanche-2","staked-ether","wrapped-bitcoin","shiba-inu","terrausd","tron","dai","near","matic-network","crypto-com-chain","litecoin","leo-token","bitcoin-cash","ftx-token","chainlink","okb","cosmos","algorand","stellar","ethereum-classic","monero","uniswap","vechain","frax","elrond-erd-2","hedera-hashgraph","internet-computer","apecoin","filecoin","terra-luna","compound-ether","the-sandbox","theta-fuel","magic-internet-money","tezos","defichain","axie-infinity","eos","theta-token","the-graph","decentraland","pancakeswap-token","flow","maker","aave","chain-2","compound-usd-coin","kucoin-shares","bittorrent","true-usd","klay-token","huobi-token","thorchain","huobi-btc","bitcoin-cash-sv","convex-finance","fantom","zcash","helium","ecash","waves","iota","cdai","radix","paxos-standard","neo","zilliqa","stepn","quant-network","arweave","celo","nexo","frax-share","gatechain-token","neutrino","bitdao","kusama","dash","compound-usdt","curve-dao-token","gala","enjincoin","osmosis","chiliz","maiar-dex","basic-attention-token","harmony","havven","xdce-crowd-sale"];
 
 function App() {
-
+  const getRoute =  (coinId) => {
+    return (
+       <Route path={"/coins/" + coinId} element={<HighChartsDemo coinIds={[coinId]}/>}/>
+    );
+  }
 
   return (
     <div className="">
-      <Router>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Table/>}/>
           <Route path="/test" element={<RechartsDemo/>}/>
+
+          {COIN_IDS.map(coinId => {
+              return getRoute(coinId);
+            })
+          }
           
           <Route exact path="/HighCharts" element={
             <>
@@ -74,7 +85,7 @@ function App() {
             </>}
             />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </div>
   );
   
