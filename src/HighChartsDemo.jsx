@@ -42,14 +42,15 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
       series: {
           compare: 'percent',
           showInNavigator: true
-      }
+      },
+      pointStart: 11
     },
     title: {
       text: coinIds
     },
     series: [
       {
-        data: [1, 2, 1, 4, 3, 6]
+        //data: [1, 2, 1, 4, 3, 6]
       }
     ]
   });
@@ -117,11 +118,13 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
         if (percentage) {
           price = price / base
         }
+        console.log(date.toISOString());
 
         dataArray.push(
           //[date.toISOString().substr(0, 10), price]
           //[date.toISOString(), price]
-          [date.toISOString(), price]
+          //[date.toISOString(), price]
+          [date.toDateString(), price]
          );
       });
 
