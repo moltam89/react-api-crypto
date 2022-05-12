@@ -6,12 +6,10 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { InputNumber } from 'antd';
 
-const HighChartsDemo = ({ coinIds }) => {
+const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) => {
 
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);
-  const displayNumberOfDays = 0;
-  const percentage = false;
   
   const getPastDate = (pastDays) => {
 	  let date = new Date();
@@ -54,17 +52,16 @@ const HighChartsDemo = ({ coinIds }) => {
           compare: 'percent',
           showInNavigator: true
       },
-      pointStart: 11
     },
     title: {
       text: coinIds
     },
-	xAxis: {
-      type: 'datetime',
-	   labels: {
-        format: '{value:%Y-%m-%d <br/> %l:%M}',
+  	xAxis: {
+        type: 'datetime',
+  	   labels: {
+          format: '{value:%Y-%m-%d <br/> %l:%M}',
+        }
       }
-    }
   });
 
   useEffect(async() => {
