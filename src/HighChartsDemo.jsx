@@ -6,7 +6,18 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { InputNumber } from 'antd';
 
+import {
+  useParams
+} from "react-router-dom";
+
 const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) => {
+  let { id } = useParams();
+
+  if (!coinIds) {
+    coinIds = [id];
+  }
+
+  console.log("coinIds", coinIds);
 
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);

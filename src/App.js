@@ -26,10 +26,7 @@ function App() {
           <Route path="/" element={<Table/>}/>
           <Route path="/test" element={<RechartsDemo/>}/>
 
-          {COIN_IDS.map(coinId => {
-              return getRoute(coinId);
-            })
-          }
+          <Route path="/coins/:id" exact element={<HighChartsDemo/>} />
           
           <Route exact path="/HighCharts" element={
             <>
