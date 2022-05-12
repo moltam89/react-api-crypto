@@ -25,7 +25,7 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
 
   const [displayedCoinIds, setDisplayedCoinIds] = useState([]);
 
-  console.log("displayedCoinIds", displayedCoinIds ? displayedCoinIds : "");
+  //console.log("displayedCoinIds", displayedCoinIds ? displayedCoinIds : "");
 
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);
@@ -136,7 +136,10 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
 
     setOptions({
       ...options, 
-      series: series
+      series: series,
+      title: {
+        text: displayedCoinIds
+      },
     });
 
   }, [displayedCoinIds, queryNumberOfDays, displayNumberOfDays, to]);
