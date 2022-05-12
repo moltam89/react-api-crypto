@@ -11,13 +11,21 @@ import {
 } from "react-router-dom";
 
 const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) => {
-  let { id } = useParams();
+  let { coinId } = useParams();
 
-  if (!coinIds) {
-    coinIds = [id];
-  }
+  useEffect(() => {
+    if (coinIds) {
+      setDisplayedCoinIds(coinIds);
+    }
+    else {
+     setDisplayedCoinIds([coinId]); 
+    }
 
-  console.log("coinIds", coinIds);
+  }, [coinIds, coinId]);
+
+  const [displayedCoinIds, setDisplayedCoinIds] = useState([]);
+
+  console.log("displayedCoinIds", displayedCoinIds ? displayedCoinIds : "");
 
   const [coinGeckoData, setCoinGeckoData] = useState([]);
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);
@@ -65,7 +73,7 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
       },
     },
     title: {
-      text: coinIds
+      text: displayedCoinIds
     },
   	xAxis: {
         type: 'datetime',
@@ -90,8 +98,8 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
 
     let series = [];
 
-    for (let i = 0; i < coinIds.length; i++) {
-      let response = await fetchMarketChartRange(coinIds[i], params);
+    for (let i = 0; i < displayedCoinIds.length; i++) {
+      let response = await fetchMarketChartRange(displayedCoinIds[i], params);
       let responseArray = response.data[displayStyle];
 
       let dataArray = [];
@@ -123,7 +131,7 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
          );
       });
 
-      series.push({name: coinIds[i], data: dataArray});
+      series.push({name: displayedCoinIds[i], data: dataArray});
     }
 
     setOptions({
@@ -131,7 +139,7 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
       series: series
     });
 
-  }, [coinIds, queryNumberOfDays, displayNumberOfDays, to]);
+  }, [displayedCoinIds, queryNumberOfDays, displayNumberOfDays, to]);
 
   return (
     <div>

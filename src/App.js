@@ -26,7 +26,7 @@ function App() {
           <Route path="/" element={<Table/>}/>
           <Route path="/test" element={<RechartsDemo/>}/>
 
-          <Route path="/coins/:id" exact element={<HighChartsDemo/>} />
+          <Route path="/coins/:coinId" exact element={<HighChartsDemo/>} />
           
           <Route exact path="/HighCharts" element={
             <>
