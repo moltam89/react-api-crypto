@@ -15,7 +15,7 @@ const COIN_IDS = ["bitcoin","ethereum","tether","binancecoin","usd-coin","ripple
 function App() {
   const getRoute =  (coinId) => {
     return (
-       <Route path={"/coins/" + coinId} element={<HighChartsDemo coinIds={[coinId]}/>}/>
+       <Route key={coinId} path={"/coins/" + coinId} element={<HighChartsDemo coinIds={[coinId]}/>}/>
     );
   }
 
