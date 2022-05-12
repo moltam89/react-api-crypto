@@ -61,27 +61,29 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
 
   const [displayStyle, setDisplayStyle] = useState("prices");
 
-  const [options, setOptions] = useState({
-	series: [],
-    chart: {
-      type: 'spline'
-    },
-    plotOptions: {
-      series: {
-          compare: 'percent',
-          showInNavigator: true
-      },
-    },
-    title: {
-      text: displayedCoinIds
-    },
-  	xAxis: {
-        type: 'datetime',
-  	   labels: {
-          format: '{value:%Y-%m-%d <br/> %l:%M}',
-        }
+  const [options, setOptions] = useState(
+      {
+    	  series: [],
+        chart: {
+          type: 'spline'
+        },
+        plotOptions: {
+          series: {
+              compare: 'percent',
+              showInNavigator: true
+          },
+        },
+        title: {
+          text: displayedCoinIds
+        },
+      	xAxis: {
+            type: 'datetime',
+      	   labels: {
+              format: '{value:%Y-%m-%d <br/> %l:%M}',
+            }
+          }
       }
-  });
+    );
 
   useEffect(async() => {
     const params = {};
