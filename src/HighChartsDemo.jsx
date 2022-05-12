@@ -6,15 +6,30 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { InputNumber } from 'antd';
 
+const HighChartsDemo = ({ coinIds }) => {
 
-
-export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percentage = false}) {
   const [coinGeckoData, setCoinGeckoData] = useState([]);
-
   const [queryNumberOfDays, setQueryNumberOfDays] = useState(1);
-  const queryNumberOfDaysOnChange = (value) => {
-    console.log("value", value);
+  const displayNumberOfDays = 0;
+  const percentage = false;
+  
+  const getPastDate = (pastDays) => {
+	  let date = new Date();
 
+	  date.setDate(date.getDate() - pastDays);
+
+	  return date;
+  }
+
+	const getUnixTimeStampFromDate = (date) => {
+	  return Math.floor((date.getTime() / 1000));
+	}
+
+	const getDateFromTimeStamp = (timeStamp) => {
+	  return new Date(timeStamp);
+	}
+	  
+  const queryNumberOfDaysOnChange = (value) => {
     if (value > 0) {
       setQueryNumberOfDays(value);  
     }
@@ -22,19 +37,15 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
 
   const [to, setTo] = useState(getUnixTimeStampFromDate(new Date()));
   const toOnchange = (value) => {
-    console.log("value", value);
-
     if (value > 0) {
       setTo(value);  
     }
   }
 
-
-  //const [displayNumberOfDays, setDisplayNumberOfDays] = useState(100);
-  // prices, market_caps, total_volumes
   const [displayStyle, setDisplayStyle] = useState("prices");
 
   const [options, setOptions] = useState({
+	series: [],
     chart: {
       type: 'spline'
     },
@@ -48,25 +59,15 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
     title: {
       text: coinIds
     },
-    series: [
-      {
-        //data: [1, 2, 1, 4, 3, 6]
+	xAxis: {
+      type: 'datetime',
+	   labels: {
+        format: '{value:%Y-%m-%d <br/> %l:%M}',
       }
-    ]
+    }
   });
 
   useEffect(async() => {
-    /*let coins = await coinsAll();
-    console.log("coins", coins);
-
-    let coinIds = []
-
-    coins.data.forEach(coin => {
-      coinIds.push(coin.id);
-    })*/
-
-    console.log(coinIds);
-
     const params = {};
     params.vs_currency = "usd";
     
@@ -77,11 +78,6 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
       params.from = getUnixTimeStampFromDate(getPastDate(queryNumberOfDays));  
     }
 
-    
-
-    console.log("params.from", params.from)
-    //params.from = params.from - 
-
     params.to = to;
 
     let series = [];
@@ -89,8 +85,6 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
     for (let i = 0; i < coinIds.length; i++) {
       let response = await fetchMarketChartRange(coinIds[i], params);
       let responseArray = response.data[displayStyle];
-
-      console.log("responseArray", responseArray);
 
       let dataArray = [];
 
@@ -101,7 +95,7 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
       let base = undefined;
 
       responseArray.forEach(element => {
-        let date = getDateFromTimeStamp(element[0]);
+        let date = element[0];
         let price = element[1];
 
         if (!base) {
@@ -111,20 +105,13 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
         if (price > 1000) {
           price = Math.floor(price);
         }
-        else {
-          //price = Number(price.toFixed(2));
-        }
-
+        
         if (percentage) {
           price = price / base
         }
-        console.log(date.toISOString());
 
         dataArray.push(
-          //[date.toISOString().substr(0, 10), price]
-          //[date.toISOString(), price]
-          //[date.toISOString(), price]
-          [date.toDateString(), price]
+          [date, price]
          );
       });
 
@@ -136,36 +123,16 @@ export default function HighChartsDemo({coinIds, displayNumberOfDays = 0, percen
       series: series
     });
 
-    // setCoinGeckoData(dataArray);
   }, [coinIds, queryNumberOfDays, displayNumberOfDays, to]);
 
   return (
     <div>
       HighChartsDemo
-      {console.log("options", options)}
       <HighchartsReact highcharts={Highcharts}  options={options} />
-
       <InputNumber placeholder="from"defaultValue={1} onChange={queryNumberOfDaysOnChange} />
       <InputNumber placeholder="to"  onChange={toOnchange} />
     </div>
   );
 }
 
-
-
-
-const getPastDate = (pastDays) => {
-  let date = new Date();
-
-  date.setDate(date.getDate() - pastDays);
-
-  return date;
-}
-
-const getUnixTimeStampFromDate = (date) => {
-  return Math.floor((date.getTime() / 1000));
-}
-
-const getDateFromTimeStamp = (timeStamp) => {
-  return new Date(timeStamp);
-}
+export default HighChartsDemo;
