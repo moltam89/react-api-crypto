@@ -4,13 +4,13 @@ import { format, parseISO, subDays } from "date-fns";
 import {fetchMarketChartRange, coinsAll} from  './CoinGeckoApi';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { InputNumber } from 'antd';
+import { Button, InputNumber } from 'antd';
 
 import {
   useParams
 } from "react-router-dom";
 
-const HighChartsDemo = ({coinIds, percentage = false}) => {
+const HighChartsDemo = ({coinIds, percentage = false, buttons = [1, 7, 14, 30, 180, 365]}) => {
   let { coinId } = useParams();
 
   useEffect(() => {
@@ -145,6 +145,19 @@ const HighChartsDemo = ({coinIds, percentage = false}) => {
   return (
     <div>
       HighChartsDemo
+
+      <div >
+          {buttons.map(
+            button => {
+              return (
+                <Button style={{backgroundColor: "red"}} type="primary" onClick={() => setQueryNumberOfDays(button)}>
+                    {button} d
+                </Button>
+              )
+            })
+          }
+      </div>
+
       <HighchartsReact highcharts={Highcharts}  options={options} />
       <InputNumber placeholder="from"defaultValue={1} onChange={queryNumberOfDaysOnChange} />
       <InputNumber placeholder="to"  onChange={toOnchange} />
