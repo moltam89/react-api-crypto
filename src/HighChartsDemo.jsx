@@ -10,7 +10,7 @@ import {
   useParams
 } from "react-router-dom";
 
-const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) => {
+const HighChartsDemo = ({coinIds, percentage = false}) => {
   let { coinId } = useParams();
 
   useEffect(() => {
@@ -106,10 +106,6 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
 
       let dataArray = [];
 
-      if (displayNumberOfDays > 0) {
-        responseArray = responseArray.slice(queryNumberOfDays - displayNumberOfDays);
-      }
-
       let base = undefined;
 
       responseArray.forEach(element => {
@@ -144,7 +140,7 @@ const HighChartsDemo = ({coinIds, displayNumberOfDays = 0, percentage = false}) 
       },
     });
 
-  }, [displayedCoinIds, queryNumberOfDays, displayNumberOfDays, to]);
+  }, [displayedCoinIds, queryNumberOfDays, to]);
 
   return (
     <div>
