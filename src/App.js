@@ -1,4 +1,5 @@
 import './App.css';
+import './coingecko.css';
 import {
   BrowserRouter,
   Routes,
@@ -20,7 +21,7 @@ function App() {
   }
 
   return (
-    <div className="">
+    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Table/>}/>

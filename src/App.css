@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-* {
+html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -48,4 +48,8 @@
 
 .coin-input::placeholder {
   color: #e2e2e2;
+}
+
+.red-background {
+  background-color: red
 }
