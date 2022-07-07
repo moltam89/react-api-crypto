@@ -58,6 +58,7 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
   }
 
   const [displayStyle, setDisplayStyle] = useState("prices");
+  console.log("displayStyle", displayStyle);
 
   const [options, setOptions] = useState(
       {
@@ -100,6 +101,8 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
 
     for (let i = 0; i < displayedCoinIds.length; i++) {
       let response = await fetchMarketChartRange(displayedCoinIds[i], params);
+      console.log("response", response);
+      console.log("displayStyle", displayStyle);
       let responseArray = response.data[displayStyle];
 
       let dataArray = [];
@@ -138,7 +141,7 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
       },
     });
 
-  }, [displayedCoinIds, queryNumberOfDays, to]);
+  }, [displayedCoinIds, queryNumberOfDays, to, displayStyle]);
 
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
@@ -158,14 +161,14 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
       <div className="filter-chart tw-flex tw-flex-wrap flex-column flex-md-row tw-justify-center justify-content-md-between" data-target="price-chart.filterChart">
         <div className="tw-flex left-0 tw-mb-2">
           <div className="tw-relative tw-z-0 tw-inline-flex tw-shadow-sm tw-rounded-md chart-selector" data-target="price-chart.chartMode">
-            <button type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-rounded-l-md tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10 active" data-action="click->price-chart#updateChart" data-action-type="type-price">
+            <button onClick={() => setDisplayStyle("prices")} type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-rounded-l-md tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10 active" data-action="click->price-chart#updateChart" data-action-type="type-price">
             Price
             </button>
-            <button type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10" data-target="price-chart.marketCapButton" data-action="click->price-chart#updateChart" data-action-type="type-market-cap">
+            <button onClick={() => setDisplayStyle("market_caps")} type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10" data-target="price-chart.marketCapButton" data-action="click->price-chart#updateChart" data-action-type="type-market-cap">
             Market Cap
             </button>
-            <button type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-rounded-r-md tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10" id="chart-toggle-trading-view" data-action="click->price-chart#updateChart" data-action-type="type-trading-view">
-            TradingView
+            <button onClick={() => setDisplayStyle("total_volumes")} type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-rounded-r-md tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10" id="chart-toggle-trading-view" data-action="click->price-chart#updateChart" data-action-type="type-trading-view">
+            Total volumes
             </button>
           </div>
         </div>
