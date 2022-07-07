@@ -5,6 +5,7 @@ import {fetchMarketChartRange, coinsAll} from  './CoinGeckoApi';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Button, InputNumber } from 'antd';
+import CoinGeckoButton from  './CoinGeckoButton';
 
 import {
   useParams
@@ -161,15 +162,9 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
       <div className="filter-chart tw-flex tw-flex-wrap flex-column flex-md-row tw-justify-center justify-content-md-between" data-target="price-chart.filterChart">
         <div className="tw-flex left-0 tw-mb-2">
           <div className="tw-relative tw-z-0 tw-inline-flex tw-shadow-sm tw-rounded-md chart-selector" data-target="price-chart.chartMode">
-            <button onClick={() => setDisplayStyle("prices")} type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-rounded-l-md tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10 active" data-action="click->price-chart#updateChart" data-action-type="type-price">
-            Price
-            </button>
-            <button onClick={() => setDisplayStyle("market_caps")} type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10" data-target="price-chart.marketCapButton" data-action="click->price-chart#updateChart" data-action-type="type-market-cap">
-            Market Cap
-            </button>
-            <button onClick={() => setDisplayStyle("total_volumes")} type="button" className="tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-rounded-r-md tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10" id="chart-toggle-trading-view" data-action="click->price-chart#updateChart" data-action-type="type-trading-view">
-            Total volumes
-            </button>
+            <CoinGeckoButton name={"Prices"} displayStyle={"prices"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
+            <CoinGeckoButton name={"Market Cap"} displayStyle={"market_caps"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
+            <CoinGeckoButton name={"Total volumes"} displayStyle={"total_volumes"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
           </div>
         </div>
 
