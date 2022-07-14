@@ -53,3 +53,7 @@ html {
 .red-background {
   background-color: red
 }
+
+.buttonSelected {
+  background-color: grey !important;
+}

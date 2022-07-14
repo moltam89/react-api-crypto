@@ -6,10 +6,16 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Button, InputNumber } from 'antd';
 import CoinGeckoButton from  './CoinGeckoButton';
+import ActiveButtonWrapper from  './ActiveButtonWrapper';
 
 import {
   useParams
 } from "react-router-dom";
+
+const componentArray = [
+ <p key="example-key-1">Hello World</p>,
+ <p key="example-key-2">Hello World</p>,
+ ];
 
 const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180, 365]}) => {
   let { coinId } = useParams();
@@ -162,9 +168,18 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
       <div className="filter-chart tw-flex tw-flex-wrap flex-column flex-md-row tw-justify-center justify-content-md-between" data-target="price-chart.filterChart">
         <div className="tw-flex left-0 tw-mb-2">
           <div className="tw-relative tw-z-0 tw-inline-flex tw-shadow-sm tw-rounded-md chart-selector" data-target="price-chart.chartMode">
-            <CoinGeckoButton name={"Prices"} displayStyle={"prices"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
-            <CoinGeckoButton name={"Market Cap"} displayStyle={"market_caps"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
-            <CoinGeckoButton name={"Total volumes"} displayStyle={"total_volumes"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
+            <ActiveButtonWrapper
+              buttons = {
+                [
+                  <CoinGeckoButton active={false} name={"Prices"} displayStyle={"prices"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>,
+                  <CoinGeckoButton name={"Market Cap"} displayStyle={"market_caps"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>,
+                  <CoinGeckoButton name={"Total volumes"} displayStyle={"total_volumes"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
+                ]
+              }
+              buttonClass = {CoinGeckoButton}
+
+              >
+             </ActiveButtonWrapper>
           </div>
         </div>
 
