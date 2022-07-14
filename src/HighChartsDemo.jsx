@@ -5,7 +5,6 @@ import {fetchMarketChartRange, coinsAll} from  './CoinGeckoApi';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Button, InputNumber } from 'antd';
-import CoinGeckoButton from  './CoinGeckoButton';
 import ActiveButtonWrapper from  './ActiveButtonWrapper';
 
 import {
@@ -171,13 +170,11 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
             <ActiveButtonWrapper
               buttons = {
                 [
-                  <CoinGeckoButton active={false} name={"Prices"} displayStyle={"prices"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>,
-                  <CoinGeckoButton name={"Market Cap"} displayStyle={"market_caps"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>,
-                  <CoinGeckoButton name={"Total volumes"} displayStyle={"total_volumes"} setDisplayStyle={setDisplayStyle}></CoinGeckoButton>
+                  {active:true, name:"Prices", displayStyle:"prices", setDisplayStyle:setDisplayStyle},
+                  {active:false, name:"PriceMarket Caps", displayStyle:"market_caps", setDisplayStyle:setDisplayStyle},
+                  {active:false, name:"Total volumes", displayStyle:"total_volumes", setDisplayStyle:setDisplayStyle}
                 ]
               }
-              buttonClass = {CoinGeckoButton}
-
               >
              </ActiveButtonWrapper>
           </div>
