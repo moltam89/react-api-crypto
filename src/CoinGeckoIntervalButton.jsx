@@ -6,6 +6,8 @@ const CoinGeckoIntervalButton = ({ days, setQueryNumberOfDays }) => {
 
 	        {days.map(
 	          (day, index) => {
+	          	console.log("index", index);
+
 	            let cssClass;
 	            
 	            if(index == 0) {
@@ -24,14 +26,9 @@ const CoinGeckoIntervalButton = ({ days, setQueryNumberOfDays }) => {
 	            }
 
 	            return (
-	              <a 
-	                key={title}
-	                className={cssClass}
-	                href="#"
-	                onClick={() => setQueryNumberOfDays(day)}
-	                >
-	                  {title}
-	                </a>
+	            	<button key={index} onClick={() => setQueryNumberOfDays(day)} type="button" className={cssClass}>
+            			{title}
+        				</button>	
 	            )
 	          })
 	        }
