@@ -150,6 +150,10 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
   }, [displayedCoinIds, queryNumberOfDays, to, displayStyle]);
 
   const capitalizeFirstLetter = (str) => {
+    if (!str) {
+      return "";
+    }
+
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
