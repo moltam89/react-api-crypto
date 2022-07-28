@@ -1,11 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-const CoinGeckoButton = ({displayStyle, index, setActiveIndex, name, setDisplayStyle, className }) => {
-	const handleOnClick = () => {
- 		setDisplayStyle(displayStyle);
- 		setActiveIndex(index);
-	};
-
+const CoinGeckoButton = ({name, className, handleOnClick }) => {
 	return (
 		<button onClick={() => handleOnClick()} type="button" className={className}>
             {name}

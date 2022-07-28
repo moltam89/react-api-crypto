@@ -21,14 +21,17 @@ const ActiveButtonWrapper = ({ buttons }) => {
 				className += " active buttonSelected";
 			}
 
+			const handleOnClick = () => {
+				setDisplayStyle(displayStyle);
+				setActiveIndex(index);
+			};
+
 			return <CoinGeckoButton
-						key={index}
-						displayStyle={displayStyle}
-						index={index}
-						setActiveIndex={setActiveIndex}
+						key={index}						
+						index={index}						
 						name={name}
-						setDisplayStyle={setDisplayStyle}
 						className={className}
+						handleOnClick={handleOnClick}
 					/>
 					
 		})}
