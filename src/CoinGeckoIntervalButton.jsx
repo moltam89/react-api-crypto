@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
 
 const CoinGeckoIntervalButton = ({ days, setQueryNumberOfDays }) => {
+	const [activeIndex, setActiveIndex] = useState();
+
+	const handleOnClick = (day, index) => {
+ 		setQueryNumberOfDays(day)
+ 		setActiveIndex(index);
+	};
+
 	return (
 		<div className="tw-h-8 tw-mb-2 md:tw-mb-0 tw-relative tw-z-0 tw-inline-flex tw-shadow-sm tw-rounded-md chart-selector left-0" data-target="price-chart.toolbar">
 
@@ -18,6 +25,10 @@ const CoinGeckoIntervalButton = ({ days, setQueryNumberOfDays }) => {
 	              cssClass = "tw-bg-white dark:tw-bg-white dark:tw-bg-opacity-5 dark:tw-text-white tw-h-8 tw--ml-px tw-relative tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-border-solid tw-border tw-cursor-pointer tw-border-gray-300 tw-text-sm tw-font-medium tw-text-gray-700 hover:tw-bg-gray-50 dark:hover:tw-bg-opacity-10 focus:tw-z-10 focus:tw-outline-none focus:tw-bg-gray-200 dark:tw-border-opacity-10 dark:focus:tw-bg-opacity-10 dark:hover:tw-text-white";
 	            }
 
+	            if (activeIndex == index) {
+	            	cssClass += " active buttonSelected";
+	            }
+
 	            let title = day + "d";
 	            if (day == 1) {
 	              title = "24h"
@@ -26,7 +37,7 @@ const CoinGeckoIntervalButton = ({ days, setQueryNumberOfDays }) => {
 	            }
 
 	            return (
-	            	<button key={index} onClick={() => setQueryNumberOfDays(day)} type="button" className={cssClass}>
+	            	<button key={index} onClick={() => handleOnClick(day, index)} type="button" className={cssClass}>
             			{title}
         				</button>	
 	            )
