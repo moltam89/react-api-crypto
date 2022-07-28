@@ -175,9 +175,9 @@ const HighChartsDemo = ({coinIds, percentage = false, days = [1, 7, 14, 30, 180,
             <ActiveButtonWrapper
               buttons = {
                 [
-                  {active:true, name:"Prices", displayStyle:"prices", setDisplayStyle:setDisplayStyle},
-                  {active:false, name:"PriceMarket Caps", displayStyle:"market_caps", setDisplayStyle:setDisplayStyle},
-                  {active:false, name:"Total volumes", displayStyle:"total_volumes", setDisplayStyle:setDisplayStyle}
+                  {name:"Prices", displayStyle:"prices", setDisplayStyle:setDisplayStyle},
+                  {name:"PriceMarket Caps", displayStyle:"market_caps", setDisplayStyle:setDisplayStyle},
+                  {name:"Total volumes", displayStyle:"total_volumes", setDisplayStyle:setDisplayStyle}
                 ]
               }
               >
